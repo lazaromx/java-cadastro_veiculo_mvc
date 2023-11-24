@@ -2,6 +2,8 @@ package br.lazaro.views;
 
 import br.lazaro.controllers.*;
 import br.lazaro.models.*;
+
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,35 +16,41 @@ public class VeiculoView {
         this.input = new Scanner(System.in);
     }
 
-    public static void showMenu(){
-            System.out.println("------Menu------");
-            System.out.println("1 - Comprar veículo");
-            System.out.println("2 - Estoque de veículo");
-            System.out.println("3 - Vender veículo");
-            System.out.println("4 - Relatório de vendas");
-            System.out.println("5 - Sair");
-            System.out.println("\nEscolha uma opção:");
+    public void showMenu(){
+        System.out.println("1 - Comprar veículo");
+        System.out.println("2 - Estoque de veículo");
+        System.out.println("3 - Vender veículo");
+        System.out.println("4 - Relatório de vendas");
     }
 
     public void comprarVeiculo() {
+        try
+        {
+            System.out.println("Informe a marca do veiculo: ");
+            String marca = input.next() ;
 
-        System.out.println("Informe a marca do veiculo: ");
-        String marca = input.next() ;
-        System.out.println("Informe o modelo do veículo: ");
-        String modelo = input.next();
-        System.out.println("Informe a cor do veículo: ");
-        String cor = input.next();
-        System.out.println("Informe o ano de fabricação do veículo");
-        int ano = input.nextInt();
-        System.out.println("Informe o preço do veículo");
-        double preco = input.nextDouble();
+            System.out.println("Informe o modelo do veículo: ");
+            String modelo = input.next();
 
-        Veiculo veiculo = new Veiculo(marca, modelo, cor, ano, preco);
+            System.out.println("Informe a cor do veículo: ");
+            String cor = input.next();
 
-        veiculoController.comprarVeiculo(veiculo);
-        System.out.println("Comprado com sucesso!");
+            System.out.println("Informe o ano de fabricação do veículo");
+            int ano = input.nextInt();
+
+            System.out.println("Informe o preço do veículo");
+            double preco = input.nextDouble();
+
+            Veiculo veiculo = new Veiculo(marca, modelo, cor, ano, preco);
+
+            veiculoController.comprarVeiculo(veiculo);
+            System.out.println("Veículo comprado com sucesso!");
+        }
+        catch (InputMismatchException ex)
+        {
+            System.out.println("Erro: " + ex.getMessage());
+        }
     }
-
 
     private void exibirVeiculos(List<Veiculo> veiculos, String titulo) {
         int count = 0;
@@ -63,7 +71,7 @@ public class VeiculoView {
     public void listarEstoque() {
         List<Veiculo> estoque = veiculoController.estoque();
         if (estoque.isEmpty()) {
-            System.out.println("Nenhuma veiculo em estoque disponivel");
+            System.out.println("Nenhum veículo em estoque disponível.");
             return;
         }
         exibirVeiculos(estoque, "Estoque de veículos");
@@ -77,7 +85,7 @@ public class VeiculoView {
     public void listarVendidos() {
         List<Veiculo> vendidos = veiculoController.vendidos();
         if (vendidos.isEmpty()) {
-            System.out.println("Nenhuma veiculo vendido.");
+            System.out.println("Nenhum veículo vendido.");
             return;
         }
 
@@ -85,18 +93,14 @@ public class VeiculoView {
     }
 
     public void venderVeiculo() {
-        listarEstoque();
-        System.out.println("Informe o código do veículo que deseja vender: ");
-
-        int idVeiculo = input.nextInt();
-
         try {
-            //Veiculo veiculo = veiculoController.getVeiculo(idVeiculo);
-            if (veiculoController.venderVeiculo(idVeiculo)) {
-                System.out.println("Veículo vendido com sucesso!");
-            } else {
-                System.out.println("Veículo não disponivel para venda");
-            }
+            listarEstoque();
+
+            System.out.println("Informe o código do veículo que deseja vender: ");
+            int idVeiculo = input.nextInt();
+
+            veiculoController.venderVeiculo(idVeiculo);
+            System.out.println("Veículo vendido com sucesso!");
 
         } catch (ArrayIndexOutOfBoundsException ax) {
             System.out.println("Código do veículo não encontrado!");

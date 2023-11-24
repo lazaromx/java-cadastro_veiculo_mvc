@@ -1,4 +1,5 @@
 package br.lazaro.controllers;
+
 import br.lazaro.repositories.VeiculoRepository;
 import br.lazaro.models.Veiculo;
 import org.junit.jupiter.api.BeforeEach;

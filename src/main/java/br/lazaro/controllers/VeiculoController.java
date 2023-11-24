@@ -2,7 +2,6 @@ package br.lazaro.controllers;
 
 import br.lazaro.repositories.*;
 import br.lazaro.models.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VeiculoController {
@@ -19,14 +18,12 @@ public class VeiculoController {
         repository.comprarVeiculo(veiculo);
     }
 
-    public boolean venderVeiculo(int idVeiculo) {
+    public void venderVeiculo(int idVeiculo) {
         Veiculo veiculo = getVeiculo(idVeiculo);
-        if (veiculo.getStatus().equals("estoque")) {
-            return repository.venderVeiculo(veiculo);
+        if (!veiculo.getStatus().equals("estoque")) {
+            throw new IllegalStateException("Veículo está fora de estoque e não pode ser vendido.");
         }
-        else {
-            return false;
-        }
+        repository.venderVeiculo(veiculo);
     }
 
 
