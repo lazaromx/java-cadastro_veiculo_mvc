@@ -3,6 +3,7 @@ package br.lazaro;
 import br.lazaro.controllers.VeiculoController;
 import br.lazaro.repositories.VeiculoRepository;
 import br.lazaro.models.Veiculo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
@@ -22,10 +23,12 @@ public class VeiculoIntegrationTest {
     void compraEVendaVeiculos(){
         Veiculo veiculo = new Veiculo("Fiat", "Uno", "Branco", 2015, 15000.0);
         controller.comprarVeiculo(veiculo);
-        assertTrue(repository.obterVeiculosPorStatus("estoque").contains(veiculo));
+        Assertions.assertTrue(repository.obterVeiculosPorStatus("estoque").contains(veiculo));
+
         controller.venderVeiculo(0);
-        assertTrue(repository.obterVeiculosPorStatus("vendido").contains(veiculo));
-        assertEquals("vendido", veiculo.getStatus());
-        assertFalse(repository.obterVeiculosPorStatus("estoque").contains(veiculo));
+        Assertions.assertTrue(repository.obterVeiculosPorStatus("vendido").contains(veiculo));
+
+        Assertions.assertEquals("vendido", veiculo.getStatus());
+        Assertions.assertFalse(repository.obterVeiculosPorStatus("estoque").contains(veiculo));
     }
 }

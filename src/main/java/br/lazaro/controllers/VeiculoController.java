@@ -6,15 +6,12 @@ import br.lazaro.models.*;
 import java.util.List;
 
 public class VeiculoController {
-    private VeiculoRepository repository = new VeiculoRepository();
+    private final VeiculoRepository repository;
 
     public VeiculoController(VeiculoRepository repository){
         this.repository = repository;
     }
-//    public static void comprarVeiculo(String marca, String modelo, String cor, int anoFabricacao, double preco){
-//        Veiculo veiculo = new Veiculo(marca, modelo, cor, anoFabricacao, preco);
-//        repository.estoque.add(veiculo);
-//    }
+
     public void comprarVeiculo(Veiculo veiculo){
         //TODO: Melhorar mensagem de erro
         if (veiculo.getPreco() <= 0) {
