@@ -1,8 +1,9 @@
-package br.lazaro.views;
+package br.lazaro;
 
 import br.lazaro.models.Veiculo;
 import br.lazaro.repositories.*;
 import br.lazaro.controllers.*;
+import br.lazaro.views.VeiculoView;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -52,7 +53,7 @@ public class VeiculoViewTest {
 
         view.comprarVeiculo();
 
-        List<Veiculo> estoque = repository.estoque();
+        List<Veiculo> estoque = repository.obterVeiculosPorStatus("estoque");
         assertEquals(1, estoque.size());
     }
 
@@ -86,7 +87,7 @@ public class VeiculoViewTest {
 
         view.venderVeiculo();
 
-        List<Veiculo> vendidos = repository.vendidos();
+        List<Veiculo> vendidos = repository.obterVeiculosPorStatus("vendido");
         assertEquals(1, vendidos.size());
     }
 

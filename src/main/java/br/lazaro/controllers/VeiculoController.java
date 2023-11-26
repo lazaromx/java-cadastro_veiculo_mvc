@@ -1,5 +1,6 @@
 package br.lazaro.controllers;
 
+import br.lazaro.exceptions.VeiculoNotFoundException;
 import br.lazaro.repositories.*;
 import br.lazaro.models.*;
 import java.util.List;
@@ -15,20 +16,24 @@ public class VeiculoController {
 //        repository.estoque.add(veiculo);
 //    }
     public void comprarVeiculo(Veiculo veiculo){
-        repository.comprarVeiculo(veiculo);
+        //TODO: Melhorar mensagem de erro
+        if (veiculo.getPreco() <= 0) {
+            throw new IllegalArgumentException("O valor do veículo deve ser maior que 0.");
+        }
+        repository.adicionarVeiculo(veiculo);
     }
 
     public void venderVeiculo(int idVeiculo) {
         Veiculo veiculo = getVeiculo(idVeiculo);
         if (!veiculo.getStatus().equals("estoque")) {
-            throw new IllegalStateException("Veículo está fora de estoque e não pode ser vendido.");
+            throw new VeiculoNotFoundException("Veículo está fora de estoque e não pode ser vendido.");
         }
-        repository.venderVeiculo(veiculo);
+        repository.atualizarVeiculo(veiculo);
     }
 
 
     public List<Veiculo> estoque() {
-        return repository.estoque();
+        return repository.obterVeiculosPorStatus("estoque");
     }
 
 
@@ -42,11 +47,11 @@ public class VeiculoController {
 //    }
 
     public List<Veiculo> vendidos() {
-        return repository.vendidos();
+        return repository.obterVeiculosPorStatus("vendido");
     }
 
     public Veiculo getVeiculo(int idVeiculo) {
-        return repository.getVeiculo(idVeiculo);
+        return repository.obterVeiculoPorId(idVeiculo);
     }
 
 }

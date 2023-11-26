@@ -9,6 +9,9 @@ public class Veiculo {
     private double preco;
     private String status;
 
+    public Veiculo() {
+
+    }
     public Veiculo(String marca, String modelo, String cor, int anoFabricacao, double preco)
     {
         this.marca = marca;
