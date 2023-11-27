@@ -16,7 +16,7 @@ public class VeiculoView {
         this.input = new Scanner(System.in);
     }
 
-    public void showMenu(){
+    public void showMenu() {
         System.out.println("1 - Comprar veículo");
         System.out.println("2 - Estoque de veículo");
         System.out.println("3 - Vender veículo");
@@ -24,10 +24,9 @@ public class VeiculoView {
     }
 
     public void comprarVeiculo() {
-        try
-        {
+        try {
             System.out.println("Informe a marca do veiculo: ");
-            String marca = input.next() ;
+            String marca = input.next();
 
             System.out.println("Informe o modelo do veículo: ");
             String modelo = input.next();
@@ -45,28 +44,18 @@ public class VeiculoView {
 
             veiculoController.comprarVeiculo(veiculo);
             System.out.println("Veículo comprado com sucesso!");
-        }
-        catch (InputMismatchException ex)
-        {
+        } catch (InputMismatchException ex) {
             System.out.println("Erro: " + ex.getMessage());
         }
     }
 
     private void exibirVeiculos(List<Veiculo> veiculos, String titulo) {
-        int count = 0;
         System.out.println("\n----- " + titulo + " -----");
         for (Veiculo veiculo : veiculos) {
-           System.out.println("ID: " + count + " - " + veiculo.toString());
-//            System.out.println(toString().concat(toString(count), "-", veiculo.toString()));
-//            System.out.println(String.format("%s - %s",count , veiculo.toString()));
-
-            count++;
+            System.out.println(veiculo.toString());
         }
+        System.out.println("\nTotal de veículos: " + veiculos.size());
     }
-
-//    public List<Veiculo> estoque() {
-//        return veiculoController.estoque();
-//    }
 
     public void listarEstoque() {
         List<Veiculo> estoque = veiculoController.estoque();
@@ -77,10 +66,6 @@ public class VeiculoView {
         exibirVeiculos(estoque, "Estoque de veículos");
 
     }
-
-//    public List<Veiculo> vendidos() {
-//        return veiculoController.vendidos();
-//    }
 
     public void listarVendidos() {
         List<Veiculo> vendidos = veiculoController.vendidos();
@@ -104,8 +89,7 @@ public class VeiculoView {
 
         } catch (ArrayIndexOutOfBoundsException ax) {
             System.out.println("Código do veículo não encontrado!");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Erro: " + ex.getMessage());
         }
 

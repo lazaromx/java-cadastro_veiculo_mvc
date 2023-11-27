@@ -19,7 +19,7 @@ public class Main {
         view = new VeiculoView(controller);
 
         int menu = 0;
-        do{
+        do {
             menu = showMenu();
 
             switch (menu) {
@@ -42,18 +42,17 @@ public class Main {
                     System.out.println("Opção inválida. \nTente novamente ou digite 0 para SAIR.");
             }
 
-        } while(menu != 0);
+        } while (menu != 0);
         input.close();
     }
 
     /**
-    * Exibe um menu para o usuário e solicita que ele faça uma seleção.
-    *
-    * @return         	A seleção do menu do usuário como um número inteiro.
-    */
+     * Exibe um menu para o usuário e solicita que ele faça uma seleção.
+     *
+     * @return A seleção do menu do usuário como um número inteiro.
+     */
     private static int showMenu() {
-        try
-        {
+        try {
             System.out.println("\n........:: Menu ::........");
 
             view.showMenu();
@@ -63,10 +62,8 @@ public class Main {
             System.out.print("Escolha uma opção: ");
 
             return Integer.parseInt(input.next());
-        }
-        catch (Exception ex)
-        {
-            return -1; //-1 irá opcao inválida e reapresentar o menu de opcpes
+        } catch (Exception ex) {
+            return -1; //-1 irá opcao inválida e reapresentar o menu de opções
         }
 
     }
