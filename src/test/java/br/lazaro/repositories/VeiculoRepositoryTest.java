@@ -40,7 +40,7 @@ public class VeiculoRepositoryTest {
     }
 
     @Test
-    public void test_inserir_e_atualizar_veiculo() {
+    public void inserirEAtualizarVeiculo() {
         Veiculo veiculo = new Veiculo("TestMarca", "TestModelo", "TestCor", 2022, 50000.0);
         veiculo.setStatus("novoStatus");
         int idVeiculo = repository.inserirVeiculo(veiculo);
@@ -67,7 +67,7 @@ public class VeiculoRepositoryTest {
     }
 
     @Test
-    public void test_inserir_e_buscar_veiculo_por_id() {
+    public void inserirEBuscarVeiculoPorId() {
         Veiculo veiculo = new Veiculo("TestMarca", "TestModelo", "TestCor", 2022, 50000.0);
         veiculo.setStatus("novoStatus");
         int idVeiculo = repository.inserirVeiculo(veiculo);
@@ -84,7 +84,7 @@ public class VeiculoRepositoryTest {
     }
 
     @Test
-    public void test_inserir_e_buscar_veiculos_por_status() {
+    public void inserirEBuscarVeiculoPorStatus() {
 
         Veiculo veiculo1 = new Veiculo("TestMarca1", "TestModelo1", "TestCor1", 2022, 50000.0);
         Veiculo veiculo2 = new Veiculo("TestMarca2", "TestModelo2", "TestCor2", 2022, 60000.0);

@@ -99,9 +99,6 @@ public class VeiculoIntegrationTest {
 
         assertEquals(1, controller.estoque().size());
 
-
-//        assertTrue(repository.listarVeiculosPorStatus("estoque").(veiculo));
-
         controller.venderVeiculo(1);
         veiculo = repository.buscarVeiculoPorId(1);
         assertEquals("vendido", veiculo.getStatus());
@@ -110,79 +107,21 @@ public class VeiculoIntegrationTest {
     }
 
     @Test
-    void compraEVendaVeiculoTest() {
+    void compraEVendaVeiculoView() {
         assertEquals(0, controller.estoque().size());
-
-        // Simular a compra de um veículo usando a VeiculoView
         view.comprarVeiculo();
 
-        // Configurar a saída do sistema para capturar resultados
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        //assertEquals(1, controller.estoque().size());
-        // Simular a listagem de veículos em estoque usando a VeiculoView
         view.listarEstoque();
 
-        // Verificar a saída esperada da VeiculoView
         String expectedOutput = "\n----- Estoque de veículos -----\r\n" +
                 "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
                 "\nTotal de veículos: 1\r\n";
 
-        // Verificar se a saída contém a string esperada
         assertEquals(expectedOutput, outputStream.toString());
 
-//        // Configurar a saída do sistema para capturar resultados
-//        outputStream = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(outputStream));
-//
-//
-//        view.venderVeiculo();
-//        // Simular a listagem de veículos em estoque usando a VeiculoView
-//        view.listarVendidos();
-//
-//        // Verificar a saída esperada da VeiculoView
-//        String expectedOutput2 = "Informe o código do veículo que deseja vender: \r\n" +
-//                "Veiculo vendido com sucesso!\r\n" +
-//                "\n----- Veiculos vendidos -----\r\n" +
-//                "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
-//                "\nTotal de veículos: 1\r\n";
-//
-//        // Verificar se a saída contém a string esperada
-//        assertEquals(expectedOutput + expectedOutput2, outputStream.toString());
-
     }
-
-//    @Test
-//    void VendaVeiculoTest() {
-//
-//        // Simular a compra de um veículo usando a VeiculoView
-//        view.comprarVeiculo();
-//
-//        String userInput = "1\n";
-//        InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
-//        System.setIn(inputStream);
-//
-//        view.venderVeiculo();
-//
-//        // Configurar a saída do sistema para capturar resultados
-//        outputStream = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(outputStream));
-//
-//        // Simular a listagem de veículos em estoque usando a VeiculoView
-//        view.listarVendidos();
-//
-//        // Verificar a saída esperada da VeiculoView
-//        String expectedOutput =
-//                "\n----- Veiculos vendidos -----\r\n" +
-//                        "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
-//                        "\nTotal de veículos: 1\r\n";
-//
-//        // Verificar se a saída contém a string esperada
-//        assertEquals(expectedOutput, outputStream.toString());
-//
-//
-//    }
-
 }
 
