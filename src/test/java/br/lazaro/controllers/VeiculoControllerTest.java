@@ -1,5 +1,6 @@
 package br.lazaro.controllers;
 
+import br.lazaro.exceptions.VeiculoNotFoundException;
 import br.lazaro.models.Veiculo;
 import br.lazaro.repositories.VeiculoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,6 +87,15 @@ public class VeiculoControllerTest {
         assertNotNull(resultado);
         assertEquals("Marca4", resultado.getMarca());
         verify(repository).buscarVeiculoPorId(1);
+    }
+
+    @Test
+    public void test_nao_vender_veiculo_fora_de_estoque() {
+        Veiculo veiculoMock = mock(Veiculo.class);
+        when(veiculoMock.getStatus()).thenReturn("vendido");
+        when(repository.buscarVeiculoPorId(0)).thenReturn(veiculoMock);
+
+        assertThrows(VeiculoNotFoundException.class, () -> controller.venderVeiculo(0));
     }
 }
 

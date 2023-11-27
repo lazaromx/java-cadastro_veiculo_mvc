@@ -1,6 +1,6 @@
 package br.lazaro.controllers;
 
-import br.lazaro.exceptions.VeiculoNotFoundException;
+import br.lazaro.exceptions.*;
 import br.lazaro.repositories.*;
 import br.lazaro.models.*;
 
