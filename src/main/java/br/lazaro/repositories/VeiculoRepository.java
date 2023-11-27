@@ -3,30 +3,22 @@ package br.lazaro.repositories;
 import br.lazaro.models.*;
 import br.lazaro.repositories.db.DBConfig;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 public class VeiculoRepository {
 
-    private static String URL;
-    private static String USUARIO;
-    private static String SENHA;
+    private String URL;
+    private String USUARIO;
+    private String SENHA;
 
     private static final String INSERIR_VEICULO = "INSERT INTO tb_veiculos (marca, modelo, cor, ano, preco, status) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String BUSCAR_VEICULO_POR_ID = "SELECT * FROM tb_veiculos WHERE id=?";
     private static final String LISTAR_VEICULOS_POR_STATUS = "SELECT * FROM tb_veiculos WHERE status=?";
     private static final String LISTAR_VEICULOS = "SELECT * FROM tb_veiculos";
     private static final String ATUALIZAR_VEICULO = "UPDATE tb_veiculos SET marca=?, modelo=?, cor=?, ano=?, preco=?, status=? WHERE id=?";
-//    private static final String DELETAR_VEICULO = "DELETE FROM tb_veiculos WHERE id=?";
 
     public VeiculoRepository() {
         this.URL = DBConfig.getUrl();
@@ -39,9 +31,12 @@ public class VeiculoRepository {
         this.USUARIO = usuario;
         this.SENHA = senha;
     }
-    public void inserirVeiculo(Veiculo veiculo) {
+    public int inserirVeiculo(Veiculo veiculo) {
+        int idInserido = -1; // Valor padrão indicando que nenhum ID foi inserido
+
+
         try (Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
-             PreparedStatement stmt = conexao.prepareStatement(INSERIR_VEICULO)) {
+             PreparedStatement stmt = conexao.prepareStatement(INSERIR_VEICULO, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, veiculo.getMarca());
             stmt.setString(2, veiculo.getModelo());
@@ -51,10 +46,21 @@ public class VeiculoRepository {
             stmt.setString(6, veiculo.getStatus());
             stmt.executeUpdate();
 
+            // Obtém as chaves geradas (no caso, o ID gerado)
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    idInserido = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado.");
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
 //            logger.error("Erro ao inserir veículo no banco de dados", e);
         }
+
+        return idInserido;
     }
 
     public void atualizarVeiculo(Veiculo veiculo) {
@@ -75,20 +81,6 @@ public class VeiculoRepository {
         }
     }
 
-//    public void deletarVeiculo(int id) {
-//        try (Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
-//             PreparedStatement stmt = conexao.prepareStatement(DELETAR_VEICULO)) {
-//
-//            stmt.setInt(1, id);
-//            stmt.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-////            logger.error("Erro ao excluir veículo por ID no banco de dados", e);
-//        }
-//    }
-
-
     public Veiculo buscarVeiculoPorId(int id) {
         try (Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
              PreparedStatement stmt = conexao.prepareStatement(BUSCAR_VEICULO_POR_ID)) {
@@ -103,7 +95,6 @@ public class VeiculoRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
-//            logger.error("Erro ao buscar veículo por ID no banco de dados", e);
         }
 
         return null;
@@ -126,30 +117,11 @@ public class VeiculoRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
-//            logger.error("Erro ao buscar veículos por STATUS no banco de dados", e);
+
         }
 
         return veiculos;
     }
-
-//    public List<Veiculo> listarVeiculos() {
-//        List<Veiculo> veiculos = new ArrayList<>();
-//
-//        try (Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
-//             PreparedStatement stmt = conexao.prepareStatement(LISTAR_VEICULOS);
-//             ResultSet resultSet = stmt.executeQuery()) {
-//
-//            while (resultSet.next()) {
-//                veiculos.add(carregarVeiculo(resultSet));
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-////            logger.error("Erro ao buscar veículos no banco de dados", e);
-//        }
-//
-//        return veiculos;
-//    }
 
     private Veiculo carregarVeiculo(ResultSet resultSet) throws SQLException {
         Veiculo veiculo = new Veiculo(
@@ -164,49 +136,3 @@ public class VeiculoRepository {
         return veiculo;
     }
 }
-
-
-//
-//public class VeiculoRepository {
-//    private final List<Veiculo> veiculos;
-//
-//    public VeiculoRepository() {
-//        this.veiculos = new ArrayList<>();
-//
-//        // adicionando apenas para até conectar a uma base de dados real
-//        this.adicionarVeiculo(new Veiculo("Renault", "Duster", "Preto", 2010, 200));
-//    }
-//
-//    public void adicionarVeiculo(Veiculo veiculo) {
-//        veiculo.setStatus("estoque");
-//        veiculos.add(veiculo);
-//    }
-//
-//    public void atualizarVeiculo(Veiculo veiculo) {
-//        veiculo.setStatus("vendido");
-//    }
-//
-//    public Veiculo obterVeiculoPorId(int idVeiculo) {
-//        try {
-//            return obterVeiculosPorStatus("estoque").get(idVeiculo);
-//        } catch (IndexOutOfBoundsException ix) {
-//            throw new NoSuchElementException("Código de Veículo não existe!", ix);
-//        }
-//    }
-//
-//    public List<Veiculo> obterVeiculosPorStatus(String status) {
-//        return filtrarVeiculosPorStatus(status);
-//    }
-//
-//    private List<Veiculo> filtrarVeiculosPorStatus(String status) {
-//        List<Veiculo> veiculosPorStatus = new ArrayList<>();
-//        for (Veiculo veiculo : this.veiculos) {
-//            if (veiculo.getStatus().equals(status)) {
-//                veiculosPorStatus.add(veiculo);
-//            }
-//        }
-//        return veiculosPorStatus;
-//    }
-//
-//
-//}

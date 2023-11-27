@@ -5,7 +5,6 @@ import br.lazaro.models.Veiculo;
 import br.lazaro.repositories.*;
 import br.lazaro.views.VeiculoView;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class VeiculoIntegrationTest {
 
-    // Use um banco de dados de teste em memória (H2 Database) para integração
+    // Usando um banco de dados de teste em memória (H2 Database) para integração
     private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USUARIO = "sa";
     private static final String SENHA = "";
@@ -50,10 +49,12 @@ public class VeiculoIntegrationTest {
         veiculo = new Veiculo("TestMarca", "TestModelo", "TestCor", 2022, 50000.0);
 
         // Configurar a entrada do usuário para simular interações
-        String userInput = "TestInputMarca\nTestInputModelo\nTestInputCor\n2020\n70000\n";
+//        String userInput = "TestInputMarca\nTestInputModelo\nTestInputCor\n2020\n70000\n";
+//        InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+//        System.setIn(inputStream);
+        String userInput = "TestInputMarca\nTestInputModelo\nTestInputCor\n2020\n70000\n1\n";
         InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
-
 
     }
 
@@ -110,9 +111,7 @@ public class VeiculoIntegrationTest {
 
     @Test
     void compraEVendaVeiculoTest() {
-
         assertEquals(0, controller.estoque().size());
-
 
         // Simular a compra de um veículo usando a VeiculoView
         view.comprarVeiculo();
@@ -126,40 +125,64 @@ public class VeiculoIntegrationTest {
         view.listarEstoque();
 
         // Verificar a saída esperada da VeiculoView
-        String expectedOutput =
-                "\n----- Estoque de veículos -----\r\n" +
+        String expectedOutput = "\n----- Estoque de veículos -----\r\n" +
                 "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
                 "\nTotal de veículos: 1\r\n";
 
         // Verificar se a saída contém a string esperada
         assertEquals(expectedOutput, outputStream.toString());
 
+//        // Configurar a saída do sistema para capturar resultados
+//        outputStream = new ByteArrayOutputStream();
+//        System.setOut(new PrintStream(outputStream));
 //
-//        //Estoque deve conter 1 veiculo
-//        assertEquals(1, controller.estoque().size());
-//        // Vendido deve conter 0 veiculos
-//        assertEquals(0, controller.vendidos().size());
+//
+//        view.venderVeiculo();
+//        // Simular a listagem de veículos em estoque usando a VeiculoView
+//        view.listarVendidos();
+//
+//        // Verificar a saída esperada da VeiculoView
+//        String expectedOutput2 = "Informe o código do veículo que deseja vender: \r\n" +
+//                "Veiculo vendido com sucesso!\r\n" +
+//                "\n----- Veiculos vendidos -----\r\n" +
+//                "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
+//                "\nTotal de veículos: 1\r\n";
+//
+//        // Verificar se a saída contém a string esperada
+//        assertEquals(expectedOutput + expectedOutput2, outputStream.toString());
 
-//        ByteArrayInputStream inVender = new ByteArrayInputStream("1\n".getBytes());
-//        System.setIn(inVender);
+    }
+
+//    @Test
+//    void VendaVeiculoTest() {
+//
+//        // Simular a compra de um veículo usando a VeiculoView
+//        view.comprarVeiculo();
+//
+//        String userInput = "1\n";
+//        InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+//        System.setIn(inputStream);
 //
 //        view.venderVeiculo();
 //
-//        //Estoque deve conter 0 veiculo
-//        assertEquals(0, controller.estoque().size());
-//        // Vendido deve conter 1 veiculos
-//        assertEquals(1, controller.vendidos().size());
-
-
-//        assertTrue(repository.listarVeiculosPorStatus("estoque").(veiculo));
-
-//        controller.venderVeiculo(1);
-//        veiculo = repository.buscarVeiculoPorId(1);
-//        assertEquals("vendido", veiculo.getStatus());
-//        assertEquals(1, controller.vendidos().size());
-//        assertEquals(0, controller.estoque().size());
-    }
-
+//        // Configurar a saída do sistema para capturar resultados
+//        outputStream = new ByteArrayOutputStream();
+//        System.setOut(new PrintStream(outputStream));
+//
+//        // Simular a listagem de veículos em estoque usando a VeiculoView
+//        view.listarVendidos();
+//
+//        // Verificar a saída esperada da VeiculoView
+//        String expectedOutput =
+//                "\n----- Veiculos vendidos -----\r\n" +
+//                        "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
+//                        "\nTotal de veículos: 1\r\n";
+//
+//        // Verificar se a saída contém a string esperada
+//        assertEquals(expectedOutput, outputStream.toString());
+//
+//
+//    }
 
 }
 
