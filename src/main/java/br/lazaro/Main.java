@@ -4,11 +4,8 @@ import br.lazaro.repositories.*;
 import br.lazaro.controllers.*;
 import br.lazaro.views.*;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     static Scanner input = new Scanner(System.in);
     static VeiculoView view;
@@ -18,7 +15,7 @@ public class Main {
         VeiculoController controller = new VeiculoController(repository);
         view = new VeiculoView(controller);
 
-        int menu = 0;
+        int menu;
         do {
             menu = showMenu();
 

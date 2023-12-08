@@ -90,7 +90,7 @@ public class VeiculoControllerTest {
     }
 
     @Test
-    void testNaoVenderVeiculoForaDeEstoque() {
+    void NaoVenderVeiculoForaDeEstoque() {
         Veiculo veiculoMock = mock(Veiculo.class);
         when(veiculoMock.getStatus()).thenReturn("vendido");
         when(repository.buscarVeiculoPorId(0)).thenReturn(veiculoMock);

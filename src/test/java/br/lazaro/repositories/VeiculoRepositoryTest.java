@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.*;
 import java.util.List;
 
-//@ExtendWith(MockitoExtension.class)
 public class VeiculoRepositoryTest {
     // Usando um banco de dados de teste em memória (H2 Database) para integração
     private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";

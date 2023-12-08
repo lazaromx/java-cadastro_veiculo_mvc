@@ -49,9 +49,6 @@ public class VeiculoIntegrationTest {
         veiculo = new Veiculo("TestMarca", "TestModelo", "TestCor", 2022, 50000.0);
 
         // Configurar a entrada do usuário para simular interações
-//        String userInput = "TestInputMarca\nTestInputModelo\nTestInputCor\n2020\n70000\n";
-//        InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
-//        System.setIn(inputStream);
         String userInput = "TestInputMarca\nTestInputModelo\nTestInputCor\n2020\n70000\n1\n";
         InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
