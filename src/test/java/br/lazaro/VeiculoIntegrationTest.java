@@ -8,7 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -105,19 +105,33 @@ public class VeiculoIntegrationTest {
 
     @Test
     void compraEVendaVeiculoView() {
-        assertEquals(0, controller.estoque().size());
+
+        List<Veiculo> estoque = controller.estoque();
+        assertEquals(0, estoque.size());
+
         view.comprarVeiculo();
 
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        view.listarEstoque();
-
         String expectedOutput = "\n----- Estoque de veículos -----\r\n" +
-                "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\tstatus: estoque\r\n" +
+                "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\t"+
+                "status: estoque\r\n" +
                 "\nTotal de veículos: 1\r\n";
 
+        List<Veiculo> vendidos = controller.vendidos();
+        assertEquals(0, vendidos.size());
+
+        view.venderVeiculo();
+        view.listarVendidos();
+        expectedOutput += "Informe o código do veículo que deseja vender: \r\n" +
+                        "Veículo vendido com sucesso!\r\n" +
+                        "\n----- Veiculos vendidos -----\r\n" +
+                        "Veiculo 1 - Marca: TestInputMarca\t\tModelo: TestInputModelo\t\tcor: TestInputCor\t\tano: 2020\t\tpreço: 70000.0\t\t" +
+                        "status: vendido\r\n" +
+                        "\nTotal de veículos: 1\r\n";
         assertEquals(expectedOutput, outputStream.toString());
+
 
     }
 }
